@@ -190,26 +190,10 @@
         @keyup.esc="cancelEdit()"
         @keyup.enter="doneEdit(item)">
       </li>
-      <!-- <li class="list-group-item">
-        <div class="d-flex">
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="a1">
-            <label class="form-check-label completed" for="a1">
-              Cras justo odio
-            </label>
-          </div>
-          <button type="button" class="close ml-auto" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </li> -->
-      <!-- <li class="list-group-item">
-        <input type="text" class="form-control">
-      </li> -->
     </ul>
     <div class="card-footer d-flex justify-content-between">
-      <span>還有 3 筆任務未完成</span>
-      <a href="#">清除所有任務</a>
+      <span>還有{{ undone }}筆任務未完成</span>
+      <a href="#" @click.prevent="clearAll">清除所有任務</a>
     </div>
   </div>
 </div>
@@ -230,6 +214,40 @@ var app = new Vue({
     cacheTitle: '',
 
     visibility: 'all'
+  },
+  computed: {
+    filteredTodos: function(){
+      if (this.visibility == 'all'){
+        return this.todos;
+      } else if (this.visibility == 'active'){
+        var newTodos = [];
+        this.todos.forEach(function(item){
+          if(!item.completed){
+            newTodos.push(item);
+          }
+        });
+        return newTodos;
+
+      } else if (this.visibility == 'completed'){
+        var newTodos = [];
+        this.todos.forEach(function(item){
+          if(item.completed){
+            newTodos.push(item);
+          }
+        });
+        return newTodos;
+      };
+    },
+    
+    undone: function(){
+      var undoneTodo = [];
+      this.todos.forEach(function(item){
+        if(!item.completed){
+          undoneTodo.push(item);
+        }
+      });
+      return undoneTodo.length;
+    }
   },
   methods: {
     addTodo: function(){
@@ -270,33 +288,17 @@ var app = new Vue({
       item.title = this.cacheTitle;
       this.cacheTitle = '';
       this.cacheTodo = {};
-    }
+    },
+
+    clearAll: function(){
+      this.todos= [];
+    },
+
+    
+    
 
   },
-  computed: {
-    filteredTodos: function(){
-      if (this.visibility == 'all'){
-        return this.todos;
-      } else if (this.visibility == 'active'){
-        var newTodos = [];
-        this.todos.forEach(function(item){
-          if(!item.completed){
-            newTodos.push(item);
-          }
-        });
-        return newTodos;
-
-      } else if (this.visibility == 'completed'){
-        var newTodos = [];
-        this.todos.forEach(function(item){
-          if(item.completed){
-            newTodos.push(item);
-          }
-        });
-        return newTodos;
-      } 
-    }
-  }
+  
 });
 </script>
 
