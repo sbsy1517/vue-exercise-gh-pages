@@ -106,26 +106,31 @@
 <script>
 // #1
 // 修改 var -> let
-var mom = '老媽';
-(function () {
-  console.log(mom);
-})();
+// let mom = '老媽';
+// (function () {
+//   console.log(mom);
+// })();
+//undefined 記憶體準備位置
+//not defined
 
 // #2
 // 修改 var -> let
+//var 作用域 function scope
+//let 作用域 block
 // function varMing () {
-//   var ming = '小明';
+//   let ming = '小明';
 //   if (true) {
-//     var ming = '杰哥';  
+//     let ming = '杰哥';  
 //     // 這裡的 ming 依然是外層的小明，所以小明即將被取代
 //   }
 //   console.log(ming);  // '杰哥'
 // }
+// varMing();
 
 
 // #3
 // 修改 var -> let
-// for (var i = 0; i < 10; i++) {
+// for (let i = 0; i < 10; i++) { //var i = 全域
 //   console.log(i);
 //   setTimeout(function () {
 //     console.log('這執行第' + i + '次');
@@ -147,12 +152,14 @@ var mom = '老媽';
 
 // #6
 // 額外問題，不使用 let，上述答案如何解答
-// for (var i = 0; i < 10; i++) {
-//   console.log(i);
-//   setTimeout(function () {
-//     console.log('這執行第' + i + '次');
-//   }, 10);
-// }
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+  (function(num){
+    setTimeout(function () {
+      console.log('這執行第' + num + '次');
+    }, (10));
+  })(i); //講解:https://ithelp.ithome.com.tw/articles/10192739
+}
 </script> 
         </div>
       </div>

@@ -103,10 +103,13 @@
 <script>
 // 官方文件 https://cn.vuejs.org/v2/guide/custom-directive.html
 Vue.directive('focus', {
+  // 當被綁定的元素插入到DOM中時
   inserted: function(el) {
+    //聚焦元素
     el.focus()
   }
-})
+});
+
 
 Vue.directive('validator', {
   update: function(el, binding, vnode) {
@@ -156,6 +159,7 @@ var app = new Vue({
   }
 });
 </script>
+
 
 <!-- 
 Vue.directive('focus', {

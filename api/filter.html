@@ -108,12 +108,23 @@
 <script type="text/x-template" id="row-component">
   <tr>
     <td>{{ item.name }}</td>
-    <td>{{ item.cash }}</td>
-    <td>{{ item.icash }}</td>
+    <td>{{ item.cash | currency | dollarSign}}</td>
+    <td>{{ item.icash | currency | dollarSign}}</td>
   </tr>
 </script>
 
 <script>
+Vue.filter('dollarSign', function(n){
+  return `$ ${n}`
+});
+
+Vue.filter('currency', function(n){
+  return n.toFixed(2).replace(/./g, function(c,i,a){
+    return i && c !== "." && ((a.length - i)%3===0 )? ',' + c : c;
+  })
+});
+
+
 var child = {
   props: ['item'],
   template: '#row-component',
@@ -122,6 +133,16 @@ var child = {
       data: {}
     }
   },
+  // filters:{
+  //   dollarSign: function(n){
+  //     return `$ ${n}`
+  //   },
+  //   currency: function(n){
+  //     return n.toFixed(2).replace(/./g, function(c,i,a){
+  //       return i && c !== "." && ((a.length - i)%3===0 )? ',' + c : c;
+  //     })
+  //   }
+  // },
   mounted: function() {
     console.log('Component:', this)
   }
@@ -168,8 +189,7 @@ Vue.filter('dollarSign', function(n) {
 });
 Vue.filter('currency', function(n) {
   return n.toFixed(2).replace(/./g, function(c, i, a) {
-    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-  });
+    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;});
 });
 --> 
         </div>
